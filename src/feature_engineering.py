@@ -1,8 +1,10 @@
 import pandas as pd
 from pathlib import Path
 
-input_folder= Path("data")/"reduced"
-output_folder= Path ("data") / "features"
+project_root = Path(__file__).resolve().parent.parent
+
+input_folder = project_root / "data" / "reduced"
+output_folder = project_root / "data" / "features"
 
 output_folder.mkdir(parents=True , exist_ok=True)
 
@@ -12,7 +14,7 @@ def create_features(filename):
     print("Orignal rows:",len(df))
     
     df["Datetime"] = pd.to_datetime(df["Timestamp"], unit="s")
-    df["TimeWindow"] = df["Datetime"].dt.floor("30s")
+    df["TimeWindow"] = df["Datetime"].dt.floor("15s")
     
     infrastructure = df[df["Type"] == "Infrastructure"].copy()
 
@@ -76,7 +78,6 @@ def create_features(filename):
     print("Saved:", output_folder / output_name)
     print()
     
-create_features("train.csv")
-create_features("test.csv")
+create_features("combined_reduced.csv")
 
     
