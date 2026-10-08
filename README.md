@@ -4,9 +4,9 @@
 
 This project explores the use of supervised machine learning techniques for link failure prediction and classification in network systems.
 
-The project is inspired by the research paper **“Link Failure Prediction and Localization in Cloud Scale Networks using Supervised Learning”** by Zahra Bakhtiari.
+The project is inspired by the research paper **“Link Failure Prediction and Localization in Cloud Scale Networks using Supervised Learning”** by Zahra Bakhtiari. We use a related public optical-failure dataset because the paper's original dataset is not available to us. Its measurements and features differ, so our results are not a direct reproduction of the paper.
 
-The objective is to use available network measurements to classify recorded link failure conditions using machine learning models.
+The objective is to use available network measurements to classify recorded link failure conditions using machine learning models. The current project classifies a failure in the same time window; it does not yet predict a future failure.
 
 ## 2. Dataset
 
@@ -32,6 +32,8 @@ The following supervised learning models are implemented:
 2. **Linear Support Vector Machine (SVM)**
 3. **Linear Discriminant Analysis (LDA)**
 
+The paper uses Gaussian Discriminant Analysis (GDA); this project implements scikit-learn's Linear Discriminant Analysis (LDA) as its discriminant-analysis model.
+
 The features are standardized using `StandardScaler` before model training.
 
 ## 4. Project Structure
@@ -48,17 +50,14 @@ link-failure-prediction-ml/
 │   ├── split_dataset.py
 │   ├── feature_engineering.py
 │   ├── train_models.py
-│   └── evaluate_model.py
-├── models/
-│   ├── logistic_model.pkl
-│   ├── svm_model.pkl
-│   ├── lda_model.pkl
-│   ├── imputer.pkl
-│   └── scaler.pkl
+│   ├── evaluate_model.py
+│   └── plot_result.py
+├── models/                 # Generated model files (ignored by Git)
+├── results/plots/          # Generated evaluation plots
 └── README.md
 ```
 
-*Note: The structure above describes the intended organization of the project. Some generated files may not be included in the GitHub repository.*
+*Prepared train/test CSV files are in `data/split/`. Model files and plots are generated when the scripts run.*
 
 ## 5. Technologies Used
 
@@ -66,6 +65,7 @@ link-failure-prediction-ml/
 * Pandas
 * Scikit-learn
 * Joblib
+* Matplotlib
 * Git and GitHub
 
 ## 6. Installation
@@ -73,7 +73,7 @@ link-failure-prediction-ml/
 Install the required Python libraries using:
 
 ```bash
-python -m pip install pandas scikit-learn joblib
+python -m pip install pandas scikit-learn joblib matplotlib
 ```
 
 ## 7. Running the Project
@@ -97,6 +97,14 @@ python src/evaluate_model.py
 This script evaluates the trained models using the test dataset and reports classification metrics, including accuracy, precision, recall, F1-score and confusion matrix.
 
 The training and evaluation scripts expect their prepared input datasets to be available in the paths specified in the scripts.
+
+### Generate plots
+
+```bash
+python src/plot_result.py
+```
+
+This saves one confusion-matrix image per model and a model-metrics comparison chart in `results/plots/`.
 
 ## 8. Evaluation Metrics
 
